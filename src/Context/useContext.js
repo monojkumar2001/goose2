@@ -133,7 +133,7 @@ export const ContextProvider = ({ children }) => {
 
   const balance = async () => {
     try {
-      const providerOptions = {};
+      const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
       const web3modal = new Web3Modal({
         network: "mumbai",
         cacheProvider: true,
@@ -152,26 +152,30 @@ export const ContextProvider = ({ children }) => {
   };
 
   const handleSubmit = async () => {
-   try{
-    const providerOptions = {};
-    const web3modal = new Web3Modal({
-      network: "mumbai",
-      cacheProvider: true,
-      providerOptions,
-    });
+    try {
+      const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
+      const web3modal = new Web3Modal({
+        network: "mumbai",
+        cacheProvider: true,
+        providerOptions,
+      });
 
-    const provider = await web3modal.connect();
-    const web3 = new Web3(provider);
+      const contract = await new web3.eth.Contract(
+        CONTRACT_ABI,
+        CONTRACT_ADDRESS
+      );
 
-    const investmentAmountInWei = web3.utils.toWei(investmentAmount, "ether");
-    await Contract.methods.invest().send({
-      from: account,
-      value: investmentAmountInWei,
-    });
+      const provider = await web3modal.connect();
+      const web3 = new Web3(provider);
 
-   }catch(err){
-     console.log(err);
-   }
+      const investmentAmountInWei = web3.utils.toWei(investmentAmount, "ether");
+      await contract.methods.invest().send({
+        from: account,
+        value: investmentAmountInWei,
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const updateReferrer = async () => {
@@ -187,7 +191,7 @@ export const ContextProvider = ({ children }) => {
 
   const getTotalInvested = async () => {
     try {
-      const providerOptions = {};
+      const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
       const web3modal = new Web3Modal({
         network: "mumbai",
         cacheProvider: true,
@@ -196,10 +200,15 @@ export const ContextProvider = ({ children }) => {
 
       const provider = await web3modal.connect();
       const web3 = new Web3(provider);
+      const contract = await new web3.eth.Contract(
+        CONTRACT_ABI,
+        CONTRACT_ADDRESS
+      );
 
-      const result = await Contract.methods.getTotalInvested().call();
+      const result = await contract.methods.getTotalInvested().call();
       const convertedResult = web3.utils.fromWei(result, "ether");
-      setTotalInvested(convertedResult);
+      const convert = parseFloat(convertedResult).toFixed(5);
+      setTotalInvested(convert);
     } catch (err) {
       console.log(err);
     }
@@ -207,7 +216,7 @@ export const ContextProvider = ({ children }) => {
 
   const getTotalProfit = async () => {
     try {
-      const providerOptions = {};
+      const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
       const web3modal = new Web3Modal({
         network: "mumbai",
         cacheProvider: true,
@@ -216,8 +225,12 @@ export const ContextProvider = ({ children }) => {
 
       const provider = await web3modal.connect();
       const web3 = new Web3(provider);
+      const contract = await new web3.eth.Contract(
+        CONTRACT_ABI,
+        CONTRACT_ADDRESS
+      );
 
-      const result = await Contract.methods.getTotalProfit().call();
+      const result = await contract.methods.getTotalProfit().call();
       const convertedResult = web3.utils.fromWei(result, "ether");
       setTotalProfit(convertedResult);
     } catch (err) {
@@ -237,7 +250,7 @@ export const ContextProvider = ({ children }) => {
 
   const getInvestedAmountByInvestor = async () => {
     try {
-      const providerOptions = {};
+      const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
       const web3modal = new Web3Modal({
         network: "mumbai",
         cacheProvider: true,
@@ -247,11 +260,17 @@ export const ContextProvider = ({ children }) => {
       const provider = await web3modal.connect();
       const web3 = new Web3(provider);
 
+      const Contract = await new web3.eth.Contract(
+        CONTRACT_ABI,
+        CONTRACT_ADDRESS
+      );
+
       const result = await Contract.methods
         .getInvestedAmountByInvestor(account)
         .call({ from: account });
       const converted = web3.utils.fromWei(result, "ether");
-      setInvestedAmountByInvestor(converted);
+      const convert = parseFloat(converted).toFixed(5);
+      setInvestedAmountByInvestor(convert);
     } catch (err) {
       console.log(err);
     }
@@ -313,7 +332,7 @@ export const ContextProvider = ({ children }) => {
 
   const getProfitEarnedHistoryByInvestor = async () => {
     try {
-      const providerOptions = {};
+      const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
       const web3modal = new Web3Modal({
         network: "mumbai",
         cacheProvider: true,
@@ -322,12 +341,18 @@ export const ContextProvider = ({ children }) => {
 
       const provider = await web3modal.connect();
       const web3 = new Web3(provider);
+
+      const Contract = await new web3.eth.Contract(
+        CONTRACT_ABI,
+        CONTRACT_ADDRESS
+      );
+
       const result = await Contract.methods
         .getProfitEarnedHistoryByInvestor(account)
         .call();
-      const amount = result[result.length - 1].profitEarnedAmount;
+      const amount = result.map((item) => item.amount).reduce((a, b) => a + b);
       const convertedAmount = web3.utils.fromWei(amount, "ether");
-      const convert = parseFloat(convertedAmount).toFixed(3);
+      const convert = parseFloat(convertedAmount).toFixed(5);
 
       setProfitEarnedHistoryByInvestor(convert);
     } catch (err) {
@@ -367,7 +392,7 @@ export const ContextProvider = ({ children }) => {
 
   const getWeeklyProfit = async () => {
     try {
-      const providerOptions = {};
+      const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
       const web3modal = new Web3Modal({
         network: "mumbai",
         cacheProvider: true,
@@ -376,6 +401,10 @@ export const ContextProvider = ({ children }) => {
 
       const provider = await web3modal.connect();
       const web3 = new Web3(provider);
+      const Contract = await new web3.eth.Contract(
+        CONTRACT_ABI,
+        CONTRACT_ADDRESS
+      );
 
       const result = await Contract.methods.getWeeklyProfit().call({
         from: account,
@@ -418,7 +447,7 @@ export const ContextProvider = ({ children }) => {
 
   const getProfitAvailable = async () => {
     try {
-      const providerOptions = {};
+      const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
       const web3modal = new Web3Modal({
         network: "mumbai",
         cacheProvider: true,
@@ -427,6 +456,11 @@ export const ContextProvider = ({ children }) => {
 
       const provider = await web3modal.connect();
       const web3 = new Web3(provider);
+
+      const Contract = await new web3.eth.Contract(
+        CONTRACT_ABI,
+        CONTRACT_ADDRESS
+      );
 
       const result = await Contract.methods
         .getProfitAvailable(account)
@@ -443,7 +477,6 @@ export const ContextProvider = ({ children }) => {
 
   useEffect(() => {
     getTronweb();
-    
   }, [walletConnected]);
 
   useEffect(() => {
@@ -466,10 +499,7 @@ export const ContextProvider = ({ children }) => {
       getProfitEarnedHistoryByInvestor();
       referrals();
     }
-  }, [
-    walletConnected,
-   
-  ]);
+  }, [walletConnected]);
 
   return (
     <TronContext.Provider
