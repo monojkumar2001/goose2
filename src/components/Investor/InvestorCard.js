@@ -4,7 +4,6 @@ import { useTronContext } from "../../Context/useContext";
 const InvestorCard = ({ img, title, dis1, dis2, dis3, dis4 }) => {
   const {
     walletBalance,
-    profitsPaidToInvestor,
     investedAmountByInvestor,
     profitEarnedHistoryByInvestor,
     userAvailableProfit,

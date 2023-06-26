@@ -160,13 +160,16 @@ export const ContextProvider = ({ children }) => {
         providerOptions,
       });
 
+
+      const provider = await web3modal.connect();
+      const web3 = new Web3(provider);
+
       const contract = await new web3.eth.Contract(
         CONTRACT_ABI,
         CONTRACT_ADDRESS
       );
 
-      const provider = await web3modal.connect();
-      const web3 = new Web3(provider);
+      
 
       const investmentAmountInWei = web3.utils.toWei(investmentAmount, "ether");
       await contract.methods.invest().send({
@@ -481,7 +484,7 @@ export const ContextProvider = ({ children }) => {
 
   useEffect(() => {
     copeRef();
-  }, [account]);
+  }, []);
 
   useEffect(() => {
     if (walletConnected) {
@@ -499,7 +502,7 @@ export const ContextProvider = ({ children }) => {
       getProfitEarnedHistoryByInvestor();
       referrals();
     }
-  }, [walletConnected]);
+  }, []);
 
   return (
     <TronContext.Provider

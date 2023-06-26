@@ -25,7 +25,7 @@ function Home() {
   const { lastweekprofit } = useTronContext();
   const [userData, setUserData] = useState(null);
 
-  const bar = () => {
+  const ChartBar = () => {
     let newUserData = {
       labels: [],
       datasets: [
@@ -45,8 +45,8 @@ function Home() {
   };
 
   useEffect(() => {
-    bar();
-  }, [lastweekprofit]);
+    ChartBar();
+  }, []);
   return (
     <React.Fragment>
       <div className="home">
