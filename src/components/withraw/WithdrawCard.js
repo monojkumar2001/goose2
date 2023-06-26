@@ -25,9 +25,6 @@ const WithdrawCard = () => {
     setLastMonthProfit(lastMonthProfit);
   };
 
-  useEffect(() => {
-    calculateLastMonthProfit();
-  }, [lastweekprofit]);
 
   const [lastWeekProfit, setLastWeekProfit] = useState(0);
 
@@ -38,9 +35,7 @@ const WithdrawCard = () => {
     }
   };
 
-  useEffect(() => {
-    calculateLastWeekProfit();
-  }, [lastweekprofit]);
+
 
   const [lastYearProfit, setLastYearProfit] = useState(0);
 
@@ -60,7 +55,9 @@ const WithdrawCard = () => {
 
   useEffect(() => {
     calculateLastYearProfit();
-  }, [lastweekprofit]);
+    calculateLastWeekProfit();
+    calculateLastMonthProfit();
+  }, []);
 
   return (
     <>
