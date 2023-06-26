@@ -1,0 +1,107 @@
+/*------------------  Intro belts  --------------------*/
+@media only screen and (max-width: 1240px) {
+  .hero {
+    padding: 150px 0 0 0;
+  }
+  .referral-get-started-btn {
+    width: 60%;
+  }
+ 
+}
+@media only screen and (max-width: 992px) {
+  .referral-link-item span {
+    overflow: hidden;
+  }
+  .referral-get-started-btn {
+    width: 75%;
+    
+  }
+
+  button.referral-btn{
+    font-size: 16px;
+    margin-top: 2px;
+  }
+ 
+}
+@media only screen and (max-width: 768px) {
+  .hero-title {
+    font-size: 30px;
+  }
+  .hero-card-item .card-title {
+    font-size: 22px;
+  }
+  .wihraw-header-content {
+    width: 100%;
+  }
+  .witdraw-content {
+    width: 100%;
+  }
+  .withdraw-card h3 {
+    font-size: 30px;
+    font-weight: 900;
+  }
+  .figure-left-items {
+    gap: 20px;
+    flex-direction: column;
+  }
+
+  .card-btn-item{
+    grid-template-columns: 2fr;
+   
+  }
+  button.referral-btn{
+    font-size: 14px;
+    margin-top: 8px;
+  }
+}
+@media only screen and (max-width: 500px) {
+  .withraw-wrapper {
+    flex-direction: column;
+  }
+
+  .footer-link .nav-list {
+    padding: 0;
+  }
+  .footer-link a.nav-link {
+    color: var(--white-color);
+    font-size: 13px;
+    width: 116px;
+  }
+  .footer-social-media a {
+    background: #ffffff;
+    border-radius: 6px;
+    padding: 10px;
+    transition: 0.4s;
+    width: 40px;
+    height: 40px;
+  }
+  .footer-social-media a img {
+    width: 100%;
+  }
+  .referral-link-item {
+    margin-top: 50px;
+    padding: 15px 20px;
+  }
+  .referral-title-name {
+    font-size: 30px;
+  }
+  .referral-history-item h2 {
+    font-size: 25px;
+  }
+  .referral-container {
+    padding: 130px 0 30px 0;
+  }
+  .referral-history-item {
+    margin-top: 50px;
+  }
+  .withdraw-btn {
+    flex-direction: column;
+  }
+  .footer-link ul {
+    flex-direction: column;
+  }
+  .footer-link a.nav-link {
+    font-size: 14px;
+    width: 200px;
+  }
+}

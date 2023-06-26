@@ -1,0 +1,242 @@
+@import url('./global.css');
+
+.Figures{
+    padding: 250px 0 100px 0;
+}
+.figure-left-con{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 130px;
+    justify-content: center;
+    width: 100%;
+}
+.figure-left-items{
+    display: flex;
+    align-items:flex-end;
+    gap: 50px;
+}
+.figure-left-item h4{
+    font-size: 20px;
+    margin: 20px 0;
+    line-height: 35px;
+}
+.figure-left-item{
+    position: relative;
+}
+.figure-left-item::after{
+    content: '';
+    position: absolute;
+    width: 80px;
+    bottom: -150px;
+    height: 120px;
+    left: 40%;
+    background-image: url(../images/arrow-down.svg);
+    background-repeat: no-repeat;
+    background-size: 50px;
+}
+.figure-left-items::after{
+display: none;
+}
+
+.figure-Right{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    gap: 80px;
+}
+.figure-title h1{
+    font-size: 120px;
+    font-weight: 900;
+    line-height: 150px;
+}
+.figure-content-item{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+}
+.figure-content-item .figure-item-2{
+    display: flex;
+    flex-direction: column;
+    gap: 130px;
+}
+.figure-dis{
+    position: relative;
+}
+.figure-dis::after{
+    content: '';
+    position: absolute;
+    width: 200px;
+    left: 20%;
+    display: inline-block;
+    height: 80px;
+    background-image: url(../images/arrow-left.svg);
+    background-repeat: no-repeat;
+    background-size: 200px;
+}
+.figure-diss {
+    position: relative;
+}
+.figure-diss::before{
+    content: '';
+    position: absolute;
+    width: 200px;
+    left: 20%;
+    top: -70px;
+    display: inline-block;
+    height: 80px;
+    background-image: url(../images/arrow-right.svg);
+    background-repeat: no-repeat;
+    background-size: 200px;
+}
+.figure-forex-img{
+    width:230px;
+    height: 230px;
+    background: #321B38;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    display: flex;
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+}
+.figure-forex-img img{
+    width: 100%;
+    transition: 0.4s;
+    cursor: pointer;
+}
+.figure-forex-img img:hover{
+    transform: scale(1.05);
+}
+.figure-item .forex-title1{
+    text-align: start;
+    padding-left: 50px;
+}
+.figure-item-3{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+.figure-item-3 .trade-img{
+    width:230px;
+    height: 230px;
+    background: #321B38;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    display: flex;
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+}
+.figure-item-3 .trade-img img{
+    width: 100%;
+    cursor: pointer;
+    transition: 0.4s;
+}
+.figure-item-3 .trade-img img:hover{
+    transform: scale(1.05);
+}
+.figure-trade{
+    position: relative;
+}
+.figure-trade::after{
+    content: '';
+    position: absolute;
+    width: 200px;
+    left: -20%;
+    top: -60px;
+    display: inline-block;
+    height: 80px;
+    background-image: url(../images/arrow-right.svg);
+    background-repeat: no-repeat;
+    background-size: 170px;
+}
+.figure-trade::before{
+    content: '';
+    position: absolute;
+    width: 200px;
+    left: -20%;
+    top: 60px;
+    display: inline-block;
+    height: 80px;
+    background-image: url(../images/arrow-left.svg);
+    background-repeat: no-repeat;
+    background-size: 170px;
+}
+.figure-img {
+    width:230px;
+    height: 230px;
+    background: #321B38;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    display: flex;
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+}
+.figure-left-item2{
+    margin-left: 35px;
+}
+.figure-img2{
+    padding: 0;
+}
+.figure-img  img{
+    width: 80%;
+    cursor: pointer;
+    transition: 0.4s;
+}
+.figure-img  img:hover{
+    transform: scale(1.05);
+}
+@media only screen and (max-width:991px) {
+    .Figures{
+        padding: 150px 0 100px 0;
+    }
+    .figure-title h1{
+        font-size: 50px;
+        font-weight: 900;
+        line-height: 70px;
+    }
+}
+@media only screen and (max-width:768px) {
+    .figure-content-item {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    .figure-dis::after {
+        left: 30%;
+    }
+    .figure-diss::before{
+        left: 30%;
+    }
+    .figure-item-3 {
+        flex-direction: column;
+        margin-top: 70px;
+        gap:80px;
+    }
+    .figure-forex-img {
+        margin: auto;
+        text-align: center;
+    }
+    .figure-item .forex-title1 {
+        text-align: center;
+        padding-left: 0px;
+    }
+}
+@media only screen and (max-width:576px) {
+    .figure-trade::after{
+        left: 10%;
+        top: -60px;
+    }
+    .figure-trade::before{
+        left: 10%;
+        top: 30px;
+    }
+    .Figures {
+        padding: 150px 0 70px 0;
+    }
+}
