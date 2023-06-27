@@ -22,7 +22,7 @@ function Home() {
     ],
   });
 
-  const { lastweekprofit } = useTronContext();
+  const { lastWeekProfit } = useTronContext();
   const [userData, setUserData] = useState(null);
 
   const ChartBar = () => {
@@ -37,16 +37,22 @@ function Home() {
       ],
     };
 
-    for (let i = 0; i < lastweekprofit.length; i++) {
-      newUserData.labels.push(`Week ${i + 1}`);
-      newUserData.datasets[0].data.push(`$ ${lastweekprofit[i]}`);
+    if (lastWeekProfit) {
+      for (let i = 0; i < lastWeekProfit.length; i++) {
+        newUserData.labels.push(`Week ${i + 1}`);
+        newUserData.datasets[0].data.push(`$ ${lastWeekProfit[i]}`);
+      }
+    } else {
+      console.log("No weekly profit data found.");
     }
+
     setUserData(newUserData);
   };
 
   useEffect(() => {
     ChartBar();
   }, []);
+
   return (
     <React.Fragment>
       <div className="home">

@@ -4,34 +4,34 @@ import { useTronContext } from "../../Context/useContext";
 
 const WithdrawCard = () => {
 
-  const { lastweekprofit } = useTronContext();
+  const { lastWeekProfit } = useTronContext();
   const [lastMonthProfit, setLastMonthProfit] = useState(0);
 
   const calculateLastMonthProfit = () => {
     const weeksPerMonth = 4; // Assuming 4 weeks per month
     const lastMonthIndex = Math.floor(
-      (lastweekprofit.length - 1) / weeksPerMonth
+      (lastWeekProfit.length - 1) / weeksPerMonth
     );
     let lastMonthProfit = 0;
 
     for (
       let i = lastMonthIndex * weeksPerMonth;
-      i < lastweekprofit.length;
+      i < lastWeekProfit.length;
       i++
     ) {
-      lastMonthProfit += lastweekprofit[i];
+      lastMonthProfit += lastWeekProfit[i];
     }
 
     setLastMonthProfit(lastMonthProfit);
   };
 
 
-  const [lastWeekProfit, setLastWeekProfit] = useState(0);
+  const [lastweekprofit, setLastWeekProfit] = useState(0);
 
   const calculateLastWeekProfit = () => {
-    if (lastweekprofit.length > 0) {
-      const lastWeekProfit = lastweekprofit[lastweekprofit.length - 1];
-      setLastWeekProfit(lastWeekProfit);
+    if (lastWeekProfit.length > 0) {
+      const WeekProfit = lastWeekProfit[lastWeekProfit.length - 1];
+      setLastWeekProfit(WeekProfit);
     }
   };
 
@@ -47,7 +47,7 @@ const WithdrawCard = () => {
     let lastYearProfit = 0;
 
     for (let i = lastYearIndex * weeksPerYear; i < lastweekprofit.length; i++) {
-      lastYearProfit += lastweekprofit[i];
+      lastYearProfit += lastWeekProfit[i];
     }
 
     setLastYearProfit(lastYearProfit);

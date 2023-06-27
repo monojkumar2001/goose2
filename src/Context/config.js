@@ -1,21 +1,182 @@
-const CONTRACT_ADDRESS = "0x222C5aC9725f20cE4cBF29c1914560def407d024";
+const CONTRACT_ADDRESS = "0x2406f01A87D788f318C7f23729a23aB5c9a45C54";
 const CONTRACT_ABI = [
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "uint8",
-        name: "version",
-        type: "uint8",
-      },
-    ],
-    name: "Initialized",
-    type: "event",
-  },
   {
     inputs: [],
     name: "cancelRequestForWithdrawOfInitialInvestment",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "compoundProfit",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "profit",
+        type: "uint256",
+      },
+    ],
+    name: "injectProfit",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "investorAddress",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "profit",
+        type: "uint256",
+      },
+    ],
+    name: "injectProfitForSingleInvestor",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "referrer",
+        type: "address",
+      },
+    ],
+    name: "invest",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "investor",
+        type: "address",
+      },
+    ],
+    name: "repayInvestorCapital",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "requestWithdrawOfInitialInvestment",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_fundManager",
+        type: "address",
+      },
+    ],
+    name: "setfundManager",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_fee",
+        type: "uint256",
+      },
+    ],
+    name: "setFUNDMANAGER_FEE",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_investmentWallet",
+        type: "address",
+      },
+    ],
+    name: "setinvestmentWallet",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_marketingWallet",
+        type: "address",
+      },
+    ],
+    name: "setmarketingWallet",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "setMinimumTotalInvestment",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_fee",
+        type: "uint256",
+      },
+    ],
+    name: "setREFERRAL_FEE",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "referrer",
+        type: "address",
+      },
+    ],
+    name: "setReferrer",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "teamWithdraw",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -32,35 +193,15 @@ const CONTRACT_ABI = [
         name: "_marketingWallet",
         type: "address",
       },
-      {
-        internalType: "address",
-        name: "_investmentWallet",
-        type: "address",
-      },
     ],
-    name: "changeTeamAddresses",
-    outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
+    type: "constructor",
   },
   {
     inputs: [],
-    name: "compoundProfit",
+    name: "withdrawProfit",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "developmentTeam",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
     type: "function",
   },
   {
@@ -130,7 +271,7 @@ const CONTRACT_ABI = [
             type: "uint256",
           },
         ],
-        internalType: "struct GooseRF.InvestmentHistoryByInvestor[]",
+        internalType: "struct Goose.InvestmentHistoryByInvestor[]",
         name: "",
         type: "tuple[]",
       },
@@ -198,7 +339,7 @@ const CONTRACT_ABI = [
             type: "uint256",
           },
         ],
-        internalType: "struct GooseRF.ProfitPayoutHistoryByInvestor[]",
+        internalType: "struct Goose.ProfitPayoutHistoryByInvestor[]",
         name: "",
         type: "tuple[]",
       },
@@ -247,7 +388,7 @@ const CONTRACT_ABI = [
             type: "uint256",
           },
         ],
-        internalType: "struct GooseRF.ProfitEarnedHistoryByInvestor[]",
+        internalType: "struct Goose.ProfitEarnedHistoryByInvestor[]",
         name: "",
         type: "tuple[]",
       },
@@ -343,73 +484,6 @@ const CONTRACT_ABI = [
       },
     ],
     stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_fundManager",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "_marketingWallet",
-        type: "address",
-      },
-    ],
-    name: "initialize",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "profit",
-        type: "uint256",
-      },
-    ],
-    name: "injectProfit",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "investorAddress",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "profit",
-        type: "uint256",
-      },
-    ],
-    name: "injectProfitForSingleInvestor",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-      {
-        internalType: "address",
-        name: "referrer",
-        type: "address",
-      },
-    ],
-    name: "invest",
-    outputs: [],
-    stateMutability: "payable",
     type: "function",
   },
   {
@@ -556,26 +630,6 @@ const CONTRACT_ABI = [
     inputs: [
       {
         internalType: "address",
-        name: "investor",
-        type: "address",
-      },
-    ],
-    name: "repayInvestorCapital",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "requestWithdrawOfInitialInvestment",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
         name: "",
         type: "address",
       },
@@ -589,58 +643,6 @@ const CONTRACT_ABI = [
       },
     ],
     stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "present",
-        type: "uint256",
-      },
-    ],
-    name: "setFUNDMANAGER_FEE",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_amount",
-        type: "uint256",
-      },
-    ],
-    name: "setMINIMUM_TOTAL_INVESTMENT",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "present",
-        type: "uint256",
-      },
-    ],
-    name: "setREFERRAL_FEE",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "referrer",
-        type: "address",
-      },
-    ],
-    name: "setReferrer",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -665,13 +667,6 @@ const CONTRACT_ABI = [
       },
     ],
     stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "teamWithdraw",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -711,13 +706,6 @@ const CONTRACT_ABI = [
       },
     ],
     stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "withdrawProfit",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
   },
 ];

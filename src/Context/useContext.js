@@ -8,7 +8,6 @@ export const useTronContext = () => useContext(TronContext);
 export const ContextProvider = ({ children }) => {
   const [account, setAccount] = useState("");
   const [walletConnected, setWalletConnected] = useState(false);
-  const [Contract, setContract] = useState(null);
   const [investmentAmount, setInvestmentAmount] = useState(0);
   const [walletBalance, setWalletBalance] = useState(0);
 
@@ -16,7 +15,8 @@ export const ContextProvider = ({ children }) => {
   const [totalInvested, setTotalInvested] = useState(0);
   const [totalInvestors, setTotalInvestors] = useState(0);
   const [totalProfit, setTotalProfit] = useState(0);
-  const [lastweekprofit, setLastweekprofit] = useState(0);
+
+  const [lastWeekProfit, setLastWeekProfit] = useState(0);
 
   const [profitsPaidToInvestor, setProfitsPaidToInvestor] = useState(0);
 
@@ -60,49 +60,6 @@ export const ContextProvider = ({ children }) => {
   //   });
   // }
 
-  const getUrlParameter = (sParam) => {
-    const sPageURL = window.location.search.substring(1);
-    let sURLVariables = sPageURL.split("&");
-    let sParameterName;
-    let i;
-
-    for (i = 0; i < sURLVariables.length; i++) {
-      sParameterName = sURLVariables[i].split("=");
-      if (sParameterName[0] === sParam) {
-        return sParameterName[1] === undefined
-          ? true
-          : decodeURIComponent(sParameterName[1]);
-      }
-    }
-  };
-
-  const copeRef = () => {
-    try {
-      var copeText;
-      copeText = window.location.origin + "/ref=" + account;
-      navigator.clipboard.writeText(copeText);
-      setRefferalURL(copeText);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  var refurl = getUrlParameter(UpdateReferrer);
-
-  if (refurl) {
-    const redirectFlag = localStorage.getItem("redirectFlag");
-
-    if (!redirectFlag) {
-      localStorage.setItem("ref", refurl);
-      window.location.href = "/";
-      localStorage.setItem("redirectFlag", "true");
-    }
-  }
-
-  upland = getUrlParameter(UpdateReferrer)
-    ? getUrlParameter(UpdateReferrer)
-    : referrer;
-
   const getTronweb = async () => {
     try {
       const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
@@ -115,6 +72,8 @@ export const ContextProvider = ({ children }) => {
       const provider = await web3modal.connect();
       const web3 = new Web3(provider);
 
+      await window.ethereum.send("eth_requestAccounts");
+
       const accounts = await web3.eth.getAccounts();
       const account = accounts[0];
       setAccount(account);
@@ -124,11 +83,11 @@ export const ContextProvider = ({ children }) => {
         CONTRACT_ADDRESS
       );
 
-      setContract(contract);
       setWalletConnected(true);
     } catch (err) {
       console.log(err);
     }
+   
   };
 
   const balance = async () => {
@@ -151,6 +110,8 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
+
+
   const handleSubmit = async () => {
     try {
       const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
@@ -160,7 +121,6 @@ export const ContextProvider = ({ children }) => {
         providerOptions,
       });
 
-
       const provider = await web3modal.connect();
       const web3 = new Web3(provider);
 
@@ -169,10 +129,8 @@ export const ContextProvider = ({ children }) => {
         CONTRACT_ADDRESS
       );
 
-      
-
       const investmentAmountInWei = web3.utils.toWei(investmentAmount, "ether");
-      await contract.methods.invest().send({
+      await contract.methods.invest(investmentAmountInWei, upland).send({
         from: account,
         value: investmentAmountInWei,
       });
@@ -183,8 +141,24 @@ export const ContextProvider = ({ children }) => {
 
   const updateReferrer = async () => {
     try {
+      const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
+      const web3modal = new Web3Modal({
+        network: "mumbai",
+        cacheProvider: true,
+        providerOptions,
+      });
+
+      const provider = await web3modal.connect();
+      const web3 = new Web3(provider);
+      const contract = await new web3.eth.Contract(
+        CONTRACT_ABI,
+        CONTRACT_ADDRESS
+      );
+
       upland = UpdateReferrer;
-      await Contract.methods.setReferrer(upland).send({
+      console.log(UpdateReferrer);
+      console.log(upland);
+      await contract.methods.setReferrer(upland).send({
         from: account,
       });
     } catch (err) {
@@ -243,7 +217,21 @@ export const ContextProvider = ({ children }) => {
 
   const getTotalInvestors = async () => {
     try {
-      const result = await Contract.methods.getTotalInvestors().call();
+      const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
+      const web3modal = new Web3Modal({
+        network: "mumbai",
+        cacheProvider: true,
+        providerOptions,
+      });
+
+      const provider = await web3modal.connect();
+      const web3 = new Web3(provider);
+      const contract = await new web3.eth.Contract(
+        CONTRACT_ABI,
+        CONTRACT_ADDRESS
+      );
+
+      const result = await contract.methods.getTotalInvestors().call();
       const convertedResult = parseInt(String(result).replace("n", ""));
       setTotalInvestors(convertedResult);
     } catch (err) {
@@ -263,12 +251,12 @@ export const ContextProvider = ({ children }) => {
       const provider = await web3modal.connect();
       const web3 = new Web3(provider);
 
-      const Contract = await new web3.eth.Contract(
+      const contract = await new web3.eth.Contract(
         CONTRACT_ABI,
         CONTRACT_ADDRESS
       );
 
-      const result = await Contract.methods
+      const result = await contract.methods
         .getInvestedAmountByInvestor(account)
         .call({ from: account });
       const converted = web3.utils.fromWei(result, "ether");
@@ -281,7 +269,20 @@ export const ContextProvider = ({ children }) => {
 
   const getProfitsPaidToInvestor = async () => {
     try {
-      const result = await Contract.methods
+      const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
+      const web3modal = new Web3Modal({
+        network: "mumbai",
+        cacheProvider: true,
+        providerOptions,
+      });
+
+      const provider = await web3modal.connect();
+      const web3 = new Web3(provider);
+      const contract = await new web3.eth.Contract(
+        CONTRACT_ABI,
+        CONTRACT_ADDRESS
+      );
+      const result = await contract.methods
         .getProfitsPaidToInvestor(account)
         .call({ from: account });
       setProfitsPaidToInvestor(result);
@@ -292,7 +293,21 @@ export const ContextProvider = ({ children }) => {
 
   const requestWithdrawOfInitialInvestment = async () => {
     try {
-      await Contract.methods
+      const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
+      const web3modal = new Web3Modal({
+        network: "mumbai",
+        cacheProvider: true,
+        providerOptions,
+      });
+
+      const provider = await web3modal.connect();
+      const web3 = new Web3(provider);
+      const contract = await new web3.eth.Contract(
+        CONTRACT_ABI,
+        CONTRACT_ADDRESS
+      );
+
+      await contract.methods
         .requestWithdrawOfInitialInvestment()
         .call({ from: account });
     } catch (err) {
@@ -302,7 +317,21 @@ export const ContextProvider = ({ children }) => {
 
   const cancelRequestForWithdrawOfInitialInvestment = async () => {
     try {
-      await Contract.methods
+      const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
+      const web3modal = new Web3Modal({
+        network: "mumbai",
+        cacheProvider: true,
+        providerOptions,
+      });
+
+      const provider = await web3modal.connect();
+      const web3 = new Web3(provider);
+      const contract = await new web3.eth.Contract(
+        CONTRACT_ABI,
+        CONTRACT_ADDRESS
+      );
+
+      await contract.methods
         .cancelRequestForWithdrawOfInitialInvestment()
         .call({ from: account });
     } catch (err) {
@@ -312,7 +341,21 @@ export const ContextProvider = ({ children }) => {
 
   const getInvestmentHistoryByInvestor = async () => {
     try {
-      const result = await Contract.methods
+      const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
+      const web3modal = new Web3Modal({
+        network: "mumbai",
+        cacheProvider: true,
+        providerOptions,
+      });
+
+      const provider = await web3modal.connect();
+      const web3 = new Web3(provider);
+      const contract = await new web3.eth.Contract(
+        CONTRACT_ABI,
+        CONTRACT_ADDRESS
+      );
+
+      const result = await contract.methods
         .getInvestmentHistoryByInvestor(account)
         .call();
       setInvestmentHistoryByInvestor(result);
@@ -323,7 +366,21 @@ export const ContextProvider = ({ children }) => {
 
   const getPayoutHistoryByInvestor = async () => {
     try {
-      const result = await Contract.methods
+      const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
+      const web3modal = new Web3Modal({
+        network: "mumbai",
+        cacheProvider: true,
+        providerOptions,
+      });
+
+      const provider = await web3modal.connect();
+      const web3 = new Web3(provider);
+      const contract = await new web3.eth.Contract(
+        CONTRACT_ABI,
+        CONTRACT_ADDRESS
+      );
+
+      const result = await contract.methods
         .getPayoutHistoryByInvestor(account)
         .call();
 
@@ -345,12 +402,12 @@ export const ContextProvider = ({ children }) => {
       const provider = await web3modal.connect();
       const web3 = new Web3(provider);
 
-      const Contract = await new web3.eth.Contract(
+      const contract = await new web3.eth.Contract(
         CONTRACT_ABI,
         CONTRACT_ADDRESS
       );
 
-      const result = await Contract.methods
+      const result = await contract.methods
         .getProfitEarnedHistoryByInvestor(account)
         .call();
       const amount = result.map((item) => item.amount).reduce((a, b) => a + b);
@@ -365,7 +422,21 @@ export const ContextProvider = ({ children }) => {
 
   const withdrawProfit = async () => {
     try {
-      await Contract.methods.withdrawProfit().send({
+      const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
+      const web3modal = new Web3Modal({
+        network: "mumbai",
+        cacheProvider: true,
+        providerOptions,
+      });
+
+      const provider = await web3modal.connect();
+      const web3 = new Web3(provider);
+      const contract = await new web3.eth.Contract(
+        CONTRACT_ABI,
+        CONTRACT_ADDRESS
+      );
+
+      await contract.methods.withdrawProfit().send({
         from: account,
         gasLmit: 3000000,
       });
@@ -376,7 +447,21 @@ export const ContextProvider = ({ children }) => {
 
   const compoundProfit = async () => {
     try {
-      await Contract.methods.compoundProfit().send({
+      const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
+      const web3modal = new Web3Modal({
+        network: "mumbai",
+        cacheProvider: true,
+        providerOptions,
+      });
+
+      const provider = await web3modal.connect();
+      const web3 = new Web3(provider);
+      const contract = await new web3.eth.Contract(
+        CONTRACT_ABI,
+        CONTRACT_ADDRESS
+      );
+
+      await contract.methods.compoundProfit().send({
         from: account,
         gasLmit: 3000000,
       });
@@ -387,7 +472,21 @@ export const ContextProvider = ({ children }) => {
 
   const teamWithdraw = async () => {
     try {
-      await Contract.methods.teamWithdraw().call({ from: account });
+      const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
+      const web3modal = new Web3Modal({
+        network: "mumbai",
+        cacheProvider: true,
+        providerOptions,
+      });
+
+      const provider = await web3modal.connect();
+      const web3 = new Web3(provider);
+      const contract = await new web3.eth.Contract(
+        CONTRACT_ABI,
+        CONTRACT_ADDRESS
+      );
+
+      await contract.methods.teamWithdraw().call({ from: account });
     } catch (err) {
       console.log(err);
     }
@@ -404,12 +503,12 @@ export const ContextProvider = ({ children }) => {
 
       const provider = await web3modal.connect();
       const web3 = new Web3(provider);
-      const Contract = await new web3.eth.Contract(
+      const contract = await new web3.eth.Contract(
         CONTRACT_ABI,
         CONTRACT_ADDRESS
       );
 
-      const result = await Contract.methods.getWeeklyProfit().call({
+      const result = await contract.methods.getWeeklyProfit().call({
         from: account,
       });
 
@@ -419,7 +518,7 @@ export const ContextProvider = ({ children }) => {
         const convertedResult = web3.utils.fromWei(lastWeekProfit, "ether");
         const convert = parseFloat(convertedResult).toFixed(5);
 
-        setLastweekprofit(convert);
+        setLastWeekProfit(convert);
       } else {
         console.log("No weekly profit data found.");
       }
@@ -430,7 +529,21 @@ export const ContextProvider = ({ children }) => {
 
   const getRequestedWithdrawByInvestor = async () => {
     try {
-      await Contract.methods
+      const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
+      const web3modal = new Web3Modal({
+        network: "mumbai",
+        cacheProvider: true,
+        providerOptions,
+      });
+
+      const provider = await web3modal.connect();
+      const web3 = new Web3(provider);
+      const contract = await new web3.eth.Contract(
+        CONTRACT_ABI,
+        CONTRACT_ADDRESS
+      );
+
+      await contract.methods
         .getRequestedWithdrawByInvestor(account)
         .call({ from: account });
     } catch (err) {
@@ -440,7 +553,21 @@ export const ContextProvider = ({ children }) => {
 
   const referrals = async () => {
     try {
-      await Contract.methods.referrals(account).call({ from: account });
+      const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
+      const web3modal = new Web3Modal({
+        network: "mumbai",
+        cacheProvider: true,
+        providerOptions,
+      });
+
+      const provider = await web3modal.connect();
+      const web3 = new Web3(provider);
+      const contract = await new web3.eth.Contract(
+        CONTRACT_ABI,
+        CONTRACT_ADDRESS
+      );
+
+      await contract.methods.referrals(account).call({ from: account });
     } catch (err) {
       console.log(err);
     }
@@ -460,12 +587,12 @@ export const ContextProvider = ({ children }) => {
       const provider = await web3modal.connect();
       const web3 = new Web3(provider);
 
-      const Contract = await new web3.eth.Contract(
+      const contract = await new web3.eth.Contract(
         CONTRACT_ABI,
         CONTRACT_ADDRESS
       );
 
-      const result = await Contract.methods
+      const result = await contract.methods
         .getProfitAvailable(account)
         .call({ from: account });
 
@@ -478,9 +605,54 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
+  const copeRef = () => {
+    try {
+      var copeText;
+      copeText = window.location.origin + "/ref=" + account;
+      navigator.clipboard.writeText(copeText);
+      setRefferalURL(copeText);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const getUrlParameter = (sParam) => {
+    const sPageURL = window.location.search.substring(1);
+    let sURLVariables = sPageURL.split("&");
+    let sParameterName;
+    let i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+      sParameterName = sURLVariables[i].split("=");
+      if (sParameterName[0] === sParam) {
+        return sParameterName[1] === undefined
+          ? true
+          : decodeURIComponent(sParameterName[1]);
+      }
+    }
+  };
+
+
+
+  var refurl = getUrlParameter(UpdateReferrer);
+  console.log(refurl);
+
+  if (refurl) {
+    const redirectFlag = localStorage.getItem("redirectFlag");
+
+    if (!redirectFlag) {
+      localStorage.setItem("ref", refurl);
+      window.location.href = "/";
+      localStorage.setItem("redirectFlag", "true");
+    }
+  }
+
+
   useEffect(() => {
-    getTronweb();
-  }, [walletConnected]);
+    if (!walletConnected) {
+      getTronweb();
+    }
+  }, [walletConnected])
 
   useEffect(() => {
     copeRef();
@@ -502,7 +674,7 @@ export const ContextProvider = ({ children }) => {
       getProfitEarnedHistoryByInvestor();
       referrals();
     }
-  }, []);
+  }, [walletConnected]);
 
   return (
     <TronContext.Provider
@@ -536,7 +708,7 @@ export const ContextProvider = ({ children }) => {
         investmentAmount,
         requestWithdrawOfInitialInvestment,
         cancelRequestForWithdrawOfInitialInvestment,
-        lastweekprofit,
+        lastWeekProfit,
         setUpdateReferrer,
         UpdateReferrer,
         copeRef,
