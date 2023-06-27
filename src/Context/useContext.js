@@ -8,8 +8,8 @@ export const useTronContext = () => useContext(TronContext);
 export const ContextProvider = ({ children }) => {
   const [account, setAccount] = useState("");
   const [walletConnected, setWalletConnected] = useState(false);
-  const [investmentAmount, setInvestmentAmount] = useState(BigInt(0));
-  const [walletBalance, setWalletBalance] = useState(BigInt(0));
+  const [investmentAmount, setInvestmentAmount] = useState(0);
+  const [walletBalance, setWalletBalance] = useState(0);
 
   const [investedAmountByInvestor, setInvestedAmountByInvestor] = useState(0);
   const [totalInvested, setTotalInvested] = useState(0);
