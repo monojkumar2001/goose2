@@ -79,25 +79,25 @@ export const ContextProvider = ({ children }) => {
       console.log(err);
     }
   };
-  const balance = async () => {
-    try {
-      const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
-      const web3modal = new Web3Modal({
-        network: "mumbai",
-        cacheProvider: true,
-        providerOptions,
-      });
+  // const balance = async () => {
+  //   try {
+  //     const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
+  //     const web3modal = new Web3Modal({
+  //       network: "mumbai",
+  //       cacheProvider: true,
+  //       providerOptions,
+  //     });
 
-      const provider = await web3modal.connect();
-      const web3 = new Web3(provider);
-      const result = await web3.eth.getBalance(account);
-      const balance = web3.utils.fromWei(result, "ether");
-      const convert = parseFloat(balance).toFixed(5);
-      setWalletBalance(convert);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  //     const provider = await web3modal.connect();
+  //     const web3 = new Web3(provider);
+  //     const result = await web3.eth.getBalance(account);
+  //     const balance = web3.utils.fromWei(result, "ether");
+  //     const convert = parseFloat(balance).toFixed(5);
+  //     setWalletBalance(convert);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   const handleSubmit = async () => {
     try {
@@ -153,30 +153,30 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
-  const getTotalInvested = async () => {
-    try {
-      const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
-      const web3modal = new Web3Modal({
-        network: "mumbai",
-        cacheProvider: true,
-        providerOptions,
-      });
+  // const getTotalInvested = async () => {
+  //   try {
+  //     const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
+  //     const web3modal = new Web3Modal({
+  //       network: "mumbai",
+  //       cacheProvider: true,
+  //       providerOptions,
+  //     });
 
-      const provider = await web3modal.connect();
-      const web3 = new Web3(provider);
-      const contract = await new web3.eth.Contract(
-        CONTRACT_ABI,
-        CONTRACT_ADDRESS
-      );
+  //     const provider = await web3modal.connect();
+  //     const web3 = new Web3(provider);
+  //     const contract = await new web3.eth.Contract(
+  //       CONTRACT_ABI,
+  //       CONTRACT_ADDRESS
+  //     );
 
-      const result = await contract.methods.getTotalInvested().call();
-      const convertedResult = web3.utils.fromWei(result, "ether");
-      const convert = parseFloat(convertedResult).toFixed(5);
-      setTotalInvested(convert);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  //     const result = await contract.methods.getTotalInvested().call();
+  //     const convertedResult = web3.utils.fromWei(result, "ether");
+  //     const convert = parseFloat(convertedResult).toFixed(5);
+  //     setTotalInvested(convert);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   const getTotalProfit = async () => {
     try {
@@ -570,11 +570,11 @@ export const ContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (walletConnected) {
-      balance();
+      // balance();
       getProfitAvailable();
       getWeeklyProfit();
       getRequestedWithdrawByInvestor();
-      getTotalInvested();
+      // getTotalInvested();
       getTotalInvestors();
       getTotalProfit();
       getInvestedAmountByInvestor();
