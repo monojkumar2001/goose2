@@ -468,22 +468,18 @@ export const ContextProvider = ({ children }) => {
         from: account,
       });
 
-      const convertedResult = web3.utils.fromWei(result, "ether");
-      const convert = parseFloat(convertedResult).toFixed(5);
-      console.log(convert);
+ 
 
-      setLastWeekProfit(convert);
+      if (result && result.length > 0) {
+        const lastWeekProfit = result[result.length - 1];
 
-      // if (result && result.length > 0) {
-      //   const lastWeekProfit = result[result.length - 1];
+        const convertedResult = web3.utils.fromWei(lastWeekProfit, "ether");
+        const convert = parseFloat(convertedResult).toFixed(5);
 
-      //   const convertedResult = web3.utils.fromWei(lastWeekProfit, "ether");
-      //   const convert = parseFloat(convertedResult).toFixed(5);
-
-      //   setLastWeekProfit(convert);
-      // } else {
-      //   console.log("No weekly profit data found.");
-      // }
+        setLastWeekProfit(convert);
+      } else {
+        console.log("No weekly profit data found.");
+      }
     } catch (e) {
       console.log(e);
     }
