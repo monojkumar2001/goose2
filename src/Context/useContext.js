@@ -328,34 +328,34 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
-  const getProfitEarnedHistoryByInvestor = async () => {
-    try {
-      const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
-      const web3modal = new Web3Modal({
-        network: "mumbai",
-        cacheProvider: true,
-        providerOptions,
-      });
+  // const getProfitEarnedHistoryByInvestor = async () => {
+  //   try {
+  //     const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
+  //     const web3modal = new Web3Modal({
+  //       network: "mumbai",
+  //       cacheProvider: true,
+  //       providerOptions,
+  //     });
 
-      const provider = await web3modal.connect();
-      const web3 = new Web3(provider);
+  //     const provider = await web3modal.connect();
+  //     const web3 = new Web3(provider);
 
-      const contract = await new web3.eth.Contract(
-        CONTRACT_ABI,
-        CONTRACT_ADDRESS
-      );
+  //     const contract = await new web3.eth.Contract(
+  //       CONTRACT_ABI,
+  //       CONTRACT_ADDRESS
+  //     );
 
-      const result = await contract.methods
-        .getProfitEarnedHistoryByInvestor(account)
-        .call();
+  //     const result = await contract.methods
+  //       .getProfitEarnedHistoryByInvestor(account)
+  //       .call();
 
-      const convertedAmount = web3.utils.fromWei(result, "ether");
-      const convert = parseFloat(convertedAmount).toFixed(5);
-      setProfitEarnedHistoryByInvestor(convert);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  //     const convertedAmount = web3.utils.fromWei(result, "ether");
+  //     const convert = parseFloat(convertedAmount).toFixed(5);
+  //     setProfitEarnedHistoryByInvestor(convert);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   const withdrawProfit = async () => {
     try {
@@ -579,7 +579,7 @@ export const ContextProvider = ({ children }) => {
       // getTotalProfit();
       // getInvestedAmountByInvestor();
       // getProfitsPaidToInvestor();
-      getProfitEarnedHistoryByInvestor();
+      // getProfitEarnedHistoryByInvestor();
       referrals();
     }
   }, [walletConnected]);
