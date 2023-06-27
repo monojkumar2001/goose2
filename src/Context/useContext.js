@@ -68,7 +68,7 @@ export const ContextProvider = ({ children }) => {
       const provider = await web3modal.connect();
       const web3 = new Web3(provider);
 
-      await window.ethereum.send("eth_requestAccounts");
+      await window.ethereum.request({ method: "eth_requestAccounts" });
 
       const accounts = await web3.eth.getAccounts();
       const account = accounts[0];
@@ -79,7 +79,6 @@ export const ContextProvider = ({ children }) => {
       console.log(err);
     }
   };
-
   const balance = async () => {
     try {
       const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
