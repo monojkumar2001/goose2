@@ -6,7 +6,8 @@ const Referral = () => {
   const { updateReferrer, setUpdateReferrer, UpdateReferrer } =
     useTronContext();
 
-  const { refferalURL } = useTronContext();
+  const { refferalURL,
+    UserReferrer } = useTronContext();
 
   const [isCopied, setIsCopied] = useState(false);
 
@@ -25,10 +26,9 @@ const Referral = () => {
               <div >
                 <input
                   type="text"
-                  value={UpdateReferrer}
-                  onChange={(e) => setUpdateReferrer(e.target.value)}
+                  id="update-ref"
                   className="referral-input "
-                  placeholder="Enter Referral Address"
+                  placeholder="CHANGE REFERRER ADDRESS"
                 />
               </div>
               <div >
@@ -56,7 +56,7 @@ const Referral = () => {
         <div className="referral-history-item">
           <h2 className="container">Referral History</h2>
           <div className="underline"></div>
-          <p className="container">No Referral Yet.</p>
+          <p className="container">{ UserReferrer || "No Referral Yet."}</p>
         </div>
       </div>
     </div>

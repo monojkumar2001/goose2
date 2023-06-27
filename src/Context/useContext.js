@@ -24,6 +24,7 @@ export const ContextProvider = ({ children }) => {
 
   const [UpdateReferrer, setUpdateReferrer] = useState("");
   const [refferalURL, setRefferalURL] = useState("");
+  const [UserReferrer, setReferrer] = useState("");
 
   var upland = "0x16C17E35833e40d9EEADf587D6eC107F69dEF2B1";
   var referrer = "0x16C17E35833e40d9EEADf587D6eC107F69dEF2B1";
@@ -64,16 +65,16 @@ export const ContextProvider = ({ children }) => {
         cacheProvider: true,
         providerOptions,
       });
-  
+
       const provider = await web3modal.connect();
       const web3 = new Web3(provider);
-  
+
       await window.ethereum.request({ method: "eth_requestAccounts" });
-  
+
       const accounts = await web3.eth.getAccounts();
       const account = accounts[0];
       setAccount(account);
-  
+
       setWalletConnected(true);
     } catch (err) {
       console.log(err);
@@ -143,9 +144,9 @@ export const ContextProvider = ({ children }) => {
         CONTRACT_ADDRESS
       );
 
-      upland = UpdateReferrer;
-      console.log(UpdateReferrer);
-      console.log(upland);
+      var ref = document.getElementById("update-ref");
+      upland = ref.value;
+
       await contract.methods.setReferrer(upland).send({
         from: account,
       });
@@ -220,9 +221,10 @@ export const ContextProvider = ({ children }) => {
         CONTRACT_ADDRESS
       );
       const result = await contract.methods.getTotalInvestors().call();
-      const convertedResult = web3.utils.fromWei(result, "ether");
-      const convert = parseFloat(convertedResult).toFixed(5);
-      setTotalInvestors(convert);
+      const convertedResult = String(result).replace("n", "");
+
+      console.log(convertedResult);
+      setTotalInvestors(convertedResult);
     } catch (err) {
       console.log(err);
     }
@@ -483,7 +485,10 @@ export const ContextProvider = ({ children }) => {
         CONTRACT_ADDRESS
       );
 
-      await contract.methods.referrals(account).call({ from: account });
+      const result = await contract.methods
+        .referrals(account)
+        .call({ from: account });
+      setReferrer(result);
     } catch (err) {
       console.log(err);
     }
@@ -532,14 +537,14 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
-  const getUrlParameter = (sParam) => {
-    const sPageURL = window.location.search.substring(1);
-    let sURLVariables = sPageURL.split("&");
-    let sParameterName;
-    let i;
-
+  var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = window.location.search.substring(1),
+      sURLVariables = sPageURL.split("&"),
+      sParameterName,
+      i;
     for (i = 0; i < sURLVariables.length; i++) {
       sParameterName = sURLVariables[i].split("=");
+
       if (sParameterName[0] === sParam) {
         return sParameterName[1] === undefined
           ? true
@@ -548,7 +553,7 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
-  var refurl = getUrlParameter(UpdateReferrer);
+  var refurl = getUrlParameter(updateReferrer);
   if (refurl) {
     const redirectFlag = localStorage.getItem("redirectFlag");
 
@@ -558,6 +563,8 @@ export const ContextProvider = ({ children }) => {
       localStorage.setItem("redirectFlag", "true");
     }
   }
+
+  upland = getUrlParameter("ref") ? getUrlParameter("ref") : referrer;
 
   useEffect(() => {
     if (!walletConnected) {
@@ -611,6 +618,7 @@ export const ContextProvider = ({ children }) => {
         setUpdateReferrer,
         UpdateReferrer,
         refferalURL,
+        UserReferrer,
       }}
     >
       {children}
