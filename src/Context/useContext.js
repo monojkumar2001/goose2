@@ -209,7 +209,8 @@ export const ContextProvider = ({ children }) => {
 
       const result = await contract.methods.getTotalProfit().call();
       const convertedResult = web3.utils.fromWei(result, "ether");
-      setTotalProfit(convertedResult);
+      const convert = parseFloat(convertedResult).toFixed(5);
+      setTotalProfit(convert);
     } catch (err) {
       console.log(err);
     }
@@ -230,10 +231,10 @@ export const ContextProvider = ({ children }) => {
         CONTRACT_ABI,
         CONTRACT_ADDRESS
       );
-
       const result = await contract.methods.getTotalInvestors().call();
-      const convertedResult = parseInt(String(result).replace("n", ""));
-      setTotalInvestors(convertedResult);
+      const convertedResult = web3.utils.fromWei(result, "ether");
+      const convert = parseFloat(convertedResult).toFixed(5);
+      setTotalInvestors(convert);
     } catch (err) {
       console.log(err);
     }
@@ -285,7 +286,9 @@ export const ContextProvider = ({ children }) => {
       const result = await contract.methods
         .getProfitsPaidToInvestor(account)
         .call({ from: account });
-      setProfitsPaidToInvestor(result);
+      const converted = web3.utils.fromWei(result, "ether");
+      const convert = parseFloat(converted).toFixed(5);
+      setProfitsPaidToInvestor(convert);
     } catch (err) {
       console.log(err);
     }
@@ -364,32 +367,6 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
-  const getPayoutHistoryByInvestor = async () => {
-    try {
-      const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
-      const web3modal = new Web3Modal({
-        network: "mumbai",
-        cacheProvider: true,
-        providerOptions,
-      });
-
-      const provider = await web3modal.connect();
-      const web3 = new Web3(provider);
-      const contract = await new web3.eth.Contract(
-        CONTRACT_ABI,
-        CONTRACT_ADDRESS
-      );
-
-      const result = await contract.methods
-        .getPayoutHistoryByInvestor(account)
-        .call();
-
-      setPayoutHistoryByInvestor(result);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const getProfitEarnedHistoryByInvestor = async () => {
     try {
       const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
@@ -410,10 +387,9 @@ export const ContextProvider = ({ children }) => {
       const result = await contract.methods
         .getProfitEarnedHistoryByInvestor(account)
         .call();
-      const amount = result.map((item) => item.amount).reduce((a, b) => a + b);
-      const convertedAmount = web3.utils.fromWei(amount, "ether");
+   
+      const convertedAmount = web3.utils.fromWei(result, "ether");
       const convert = parseFloat(convertedAmount).toFixed(5);
-
       setProfitEarnedHistoryByInvestor(convert);
     } catch (err) {
       console.log(err);
@@ -470,27 +446,7 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
-  const teamWithdraw = async () => {
-    try {
-      const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
-      const web3modal = new Web3Modal({
-        network: "mumbai",
-        cacheProvider: true,
-        providerOptions,
-      });
 
-      const provider = await web3modal.connect();
-      const web3 = new Web3(provider);
-      const contract = await new web3.eth.Contract(
-        CONTRACT_ABI,
-        CONTRACT_ADDRESS
-      );
-
-      await contract.methods.teamWithdraw().call({ from: account });
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   const getWeeklyProfit = async () => {
     try {
@@ -632,11 +588,7 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
-
-
   var refurl = getUrlParameter(UpdateReferrer);
-  console.log(refurl);
-
   if (refurl) {
     const redirectFlag = localStorage.getItem("redirectFlag");
 
@@ -669,8 +621,6 @@ export const ContextProvider = ({ children }) => {
       getTotalProfit();
       getInvestedAmountByInvestor();
       getProfitsPaidToInvestor();
-      getInvestmentHistoryByInvestor();
-      getPayoutHistoryByInvestor();
       getProfitEarnedHistoryByInvestor();
       referrals();
     }
@@ -683,20 +633,13 @@ export const ContextProvider = ({ children }) => {
         account,
         handleSubmit,
         getTronweb,
-        getInvestedAmountByInvestor,
-        getTotalInvestors,
-        getInvestmentHistoryByInvestor,
-        getPayoutHistoryByInvestor,
-        getProfitEarnedHistoryByInvestor,
         withdrawProfit,
         compoundProfit,
-        teamWithdraw,
 
         updateReferrer,
         userAvailableProfit,
 
         profitEarnedHistoryByInvestor,
-        payoutHistoryByInvestor,
         investmentHistoryByInvestor,
         profitsPaidToInvestor,
         totalProfit,
@@ -711,7 +654,6 @@ export const ContextProvider = ({ children }) => {
         lastWeekProfit,
         setUpdateReferrer,
         UpdateReferrer,
-        copeRef,
         refferalURL,
       }}
     >

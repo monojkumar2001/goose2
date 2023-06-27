@@ -21,8 +21,8 @@ const WithdrawCard = () => {
     ) {
       lastMonthProfit += lastWeekProfit[i];
     }
-
-    setLastMonthProfit(lastMonthProfit);
+    const convertToNumber = parseInt(lastMonthProfit).toFixed(5);
+    setLastMonthProfit(convertToNumber);
   };
 
 
@@ -31,7 +31,8 @@ const WithdrawCard = () => {
   const calculateLastWeekProfit = () => {
     if (lastWeekProfit.length > 0) {
       const WeekProfit = lastWeekProfit[lastWeekProfit.length - 1];
-      setLastWeekProfit(WeekProfit);
+      const convertToNumber = parseInt(WeekProfit).toFixed(5);
+      setLastWeekProfit(convertToNumber);
     }
   };
 
@@ -49,8 +50,8 @@ const WithdrawCard = () => {
     for (let i = lastYearIndex * weeksPerYear; i < lastweekprofit.length; i++) {
       lastYearProfit += lastWeekProfit[i];
     }
-
-    setLastYearProfit(lastYearProfit);
+    const convertToNumber = parseInt(lastYearProfit).toFixed(5);
+    setLastYearProfit(convertToNumber);
   };
 
   useEffect(() => {
