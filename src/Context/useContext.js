@@ -87,7 +87,6 @@ export const ContextProvider = ({ children }) => {
     } catch (err) {
       console.log(err);
     }
-   
   };
 
   const balance = async () => {
@@ -109,8 +108,6 @@ export const ContextProvider = ({ children }) => {
       console.log(err);
     }
   };
-
-
 
   const handleSubmit = async () => {
     try {
@@ -286,9 +283,8 @@ export const ContextProvider = ({ children }) => {
       const result = await contract.methods
         .getProfitsPaidToInvestor(account)
         .call({ from: account });
-      const converted = web3.utils.fromWei(result, "ether");
-      const convert = parseFloat(converted).toFixed(5);
-      setProfitsPaidToInvestor(convert);
+
+      setProfitsPaidToInvestor(result);
     } catch (err) {
       console.log(err);
     }
@@ -342,31 +338,6 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
-  const getInvestmentHistoryByInvestor = async () => {
-    try {
-      const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
-      const web3modal = new Web3Modal({
-        network: "mumbai",
-        cacheProvider: true,
-        providerOptions,
-      });
-
-      const provider = await web3modal.connect();
-      const web3 = new Web3(provider);
-      const contract = await new web3.eth.Contract(
-        CONTRACT_ABI,
-        CONTRACT_ADDRESS
-      );
-
-      const result = await contract.methods
-        .getInvestmentHistoryByInvestor(account)
-        .call();
-      setInvestmentHistoryByInvestor(result);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const getProfitEarnedHistoryByInvestor = async () => {
     try {
       const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
@@ -387,7 +358,7 @@ export const ContextProvider = ({ children }) => {
       const result = await contract.methods
         .getProfitEarnedHistoryByInvestor(account)
         .call();
-   
+
       const convertedAmount = web3.utils.fromWei(result, "ether");
       const convert = parseFloat(convertedAmount).toFixed(5);
       setProfitEarnedHistoryByInvestor(convert);
@@ -446,8 +417,6 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
-
-
   const getWeeklyProfit = async () => {
     try {
       const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
@@ -467,8 +436,6 @@ export const ContextProvider = ({ children }) => {
       const result = await contract.methods.getWeeklyProfit().call({
         from: account,
       });
-
- 
 
       if (result && result.length > 0) {
         const lastWeekProfit = result[result.length - 1];
@@ -601,12 +568,11 @@ export const ContextProvider = ({ children }) => {
     }
   }
 
-
   useEffect(() => {
     if (!walletConnected) {
       getTronweb();
     }
-  }, [walletConnected])
+  }, [walletConnected]);
 
   useEffect(() => {
     copeRef();
@@ -637,10 +603,8 @@ export const ContextProvider = ({ children }) => {
         getTronweb,
         withdrawProfit,
         compoundProfit,
-
         updateReferrer,
         userAvailableProfit,
-
         profitEarnedHistoryByInvestor,
         investmentHistoryByInvestor,
         profitsPaidToInvestor,
