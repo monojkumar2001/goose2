@@ -178,107 +178,107 @@ export const ContextProvider = ({ children }) => {
   //   }
   // };
 
-  const getTotalProfit = async () => {
-    try {
-      const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
-      const web3modal = new Web3Modal({
-        network: "mumbai",
-        cacheProvider: true,
-        providerOptions,
-      });
+  // const getTotalProfit = async () => {
+  //   try {
+  //     const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
+  //     const web3modal = new Web3Modal({
+  //       network: "mumbai",
+  //       cacheProvider: true,
+  //       providerOptions,
+  //     });
 
-      const provider = await web3modal.connect();
-      const web3 = new Web3(provider);
-      const contract = await new web3.eth.Contract(
-        CONTRACT_ABI,
-        CONTRACT_ADDRESS
-      );
+  //     const provider = await web3modal.connect();
+  //     const web3 = new Web3(provider);
+  //     const contract = await new web3.eth.Contract(
+  //       CONTRACT_ABI,
+  //       CONTRACT_ADDRESS
+  //     );
 
-      const result = await contract.methods.getTotalProfit().call();
-      const convertedResult = web3.utils.fromWei(result, "ether");
-      const convert = parseFloat(convertedResult).toFixed(5);
-      setTotalProfit(convert);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  //     const result = await contract.methods.getTotalProfit().call();
+  //     const convertedResult = web3.utils.fromWei(result, "ether");
+  //     const convert = parseFloat(convertedResult).toFixed(5);
+  //     setTotalProfit(convert);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
-  const getTotalInvestors = async () => {
-    try {
-      const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
-      const web3modal = new Web3Modal({
-        network: "mumbai",
-        cacheProvider: true,
-        providerOptions,
-      });
+  // const getTotalInvestors = async () => {
+  //   try {
+  //     const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
+  //     const web3modal = new Web3Modal({
+  //       network: "mumbai",
+  //       cacheProvider: true,
+  //       providerOptions,
+  //     });
 
-      const provider = await web3modal.connect();
-      const web3 = new Web3(provider);
-      const contract = await new web3.eth.Contract(
-        CONTRACT_ABI,
-        CONTRACT_ADDRESS
-      );
-      const result = await contract.methods.getTotalInvestors().call();
-      const convertedResult = web3.utils.fromWei(result, "ether");
-      const convert = parseFloat(convertedResult).toFixed(5);
-      setTotalInvestors(convert);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  //     const provider = await web3modal.connect();
+  //     const web3 = new Web3(provider);
+  //     const contract = await new web3.eth.Contract(
+  //       CONTRACT_ABI,
+  //       CONTRACT_ADDRESS
+  //     );
+  //     const result = await contract.methods.getTotalInvestors().call();
+  //     const convertedResult = web3.utils.fromWei(result, "ether");
+  //     const convert = parseFloat(convertedResult).toFixed(5);
+  //     setTotalInvestors(convert);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
-  const getInvestedAmountByInvestor = async () => {
-    try {
-      const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
-      const web3modal = new Web3Modal({
-        network: "mumbai",
-        cacheProvider: true,
-        providerOptions,
-      });
+  // const getInvestedAmountByInvestor = async () => {
+  //   try {
+  //     const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
+  //     const web3modal = new Web3Modal({
+  //       network: "mumbai",
+  //       cacheProvider: true,
+  //       providerOptions,
+  //     });
 
-      const provider = await web3modal.connect();
-      const web3 = new Web3(provider);
+  //     const provider = await web3modal.connect();
+  //     const web3 = new Web3(provider);
 
-      const contract = await new web3.eth.Contract(
-        CONTRACT_ABI,
-        CONTRACT_ADDRESS
-      );
+  //     const contract = await new web3.eth.Contract(
+  //       CONTRACT_ABI,
+  //       CONTRACT_ADDRESS
+  //     );
 
-      const result = await contract.methods
-        .getInvestedAmountByInvestor(account)
-        .call({ from: account });
-      const converted = web3.utils.fromWei(result, "ether");
-      const convert = parseFloat(converted).toFixed(5);
-      setInvestedAmountByInvestor(convert);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  //     const result = await contract.methods
+  //       .getInvestedAmountByInvestor(account)
+  //       .call({ from: account });
+  //     const converted = web3.utils.fromWei(result, "ether");
+  //     const convert = parseFloat(converted).toFixed(5);
+  //     setInvestedAmountByInvestor(convert);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
-  const getProfitsPaidToInvestor = async () => {
-    try {
-      const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
-      const web3modal = new Web3Modal({
-        network: "mumbai",
-        cacheProvider: true,
-        providerOptions,
-      });
+  // const getProfitsPaidToInvestor = async () => {
+  //   try {
+  //     const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
+  //     const web3modal = new Web3Modal({
+  //       network: "mumbai",
+  //       cacheProvider: true,
+  //       providerOptions,
+  //     });
 
-      const provider = await web3modal.connect();
-      const web3 = new Web3(provider);
-      const contract = await new web3.eth.Contract(
-        CONTRACT_ABI,
-        CONTRACT_ADDRESS
-      );
-      const result = await contract.methods
-        .getProfitsPaidToInvestor(account)
-        .call({ from: account });
+  //     const provider = await web3modal.connect();
+  //     const web3 = new Web3(provider);
+  //     const contract = await new web3.eth.Contract(
+  //       CONTRACT_ABI,
+  //       CONTRACT_ADDRESS
+  //     );
+  //     const result = await contract.methods
+  //       .getProfitsPaidToInvestor(account)
+  //       .call({ from: account });
 
-      setProfitsPaidToInvestor(result);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  //     setProfitsPaidToInvestor(result);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   const requestWithdrawOfInitialInvestment = async () => {
     try {
@@ -407,40 +407,40 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
-  const getWeeklyProfit = async () => {
-    try {
-      const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
-      const web3modal = new Web3Modal({
-        network: "mumbai",
-        cacheProvider: true,
-        providerOptions,
-      });
+  // const getWeeklyProfit = async () => {
+  //   try {
+  //     const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
+  //     const web3modal = new Web3Modal({
+  //       network: "mumbai",
+  //       cacheProvider: true,
+  //       providerOptions,
+  //     });
 
-      const provider = await web3modal.connect();
-      const web3 = new Web3(provider);
-      const contract = await new web3.eth.Contract(
-        CONTRACT_ABI,
-        CONTRACT_ADDRESS
-      );
+  //     const provider = await web3modal.connect();
+  //     const web3 = new Web3(provider);
+  //     const contract = await new web3.eth.Contract(
+  //       CONTRACT_ABI,
+  //       CONTRACT_ADDRESS
+  //     );
 
-      const result = await contract.methods.getWeeklyProfit().call({
-        from: account,
-      });
+  //     const result = await contract.methods.getWeeklyProfit().call({
+  //       from: account,
+  //     });
 
-      if (result && result.length > 0) {
-        const lastWeekProfit = result[result.length - 1];
+  //     if (result && result.length > 0) {
+  //       const lastWeekProfit = result[result.length - 1];
 
-        const convertedResult = web3.utils.fromWei(lastWeekProfit, "ether");
-        const convert = parseFloat(convertedResult).toFixed(5);
+  //       const convertedResult = web3.utils.fromWei(lastWeekProfit, "ether");
+  //       const convert = parseFloat(convertedResult).toFixed(5);
 
-        setLastWeekProfit(convert);
-      } else {
-        console.log("No weekly profit data found.");
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  //       setLastWeekProfit(convert);
+  //     } else {
+  //       console.log("No weekly profit data found.");
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
   const getRequestedWithdrawByInvestor = async () => {
     try {
@@ -490,35 +490,35 @@ export const ContextProvider = ({ children }) => {
 
   const [userAvailableProfit, setUserAvailableProfit] = useState(0);
 
-  const getProfitAvailable = async () => {
-    try {
-      const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
-      const web3modal = new Web3Modal({
-        network: "mumbai",
-        cacheProvider: true,
-        providerOptions,
-      });
+  // const getProfitAvailable = async () => {
+  //   try {
+  //     const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
+  //     const web3modal = new Web3Modal({
+  //       network: "mumbai",
+  //       cacheProvider: true,
+  //       providerOptions,
+  //     });
 
-      const provider = await web3modal.connect();
-      const web3 = new Web3(provider);
+  //     const provider = await web3modal.connect();
+  //     const web3 = new Web3(provider);
 
-      const contract = await new web3.eth.Contract(
-        CONTRACT_ABI,
-        CONTRACT_ADDRESS
-      );
+  //     const contract = await new web3.eth.Contract(
+  //       CONTRACT_ABI,
+  //       CONTRACT_ADDRESS
+  //     );
 
-      const result = await contract.methods
-        .getProfitAvailable(account)
-        .call({ from: account });
+  //     const result = await contract.methods
+  //       .getProfitAvailable(account)
+  //       .call({ from: account });
 
-      const convertedResult = web3.utils.fromWei(result, "ether");
-      const convert = parseFloat(convertedResult).toFixed(5);
+  //     const convertedResult = web3.utils.fromWei(result, "ether");
+  //     const convert = parseFloat(convertedResult).toFixed(5);
 
-      setUserAvailableProfit(convert);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  //     setUserAvailableProfit(convert);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   const copeRef = () => {
     try {
@@ -571,14 +571,14 @@ export const ContextProvider = ({ children }) => {
   useEffect(() => {
     if (walletConnected) {
       // balance();
-      getProfitAvailable();
-      getWeeklyProfit();
+      // getProfitAvailable();
+      // getWeeklyProfit();
       getRequestedWithdrawByInvestor();
       // getTotalInvested();
-      getTotalInvestors();
-      getTotalProfit();
-      getInvestedAmountByInvestor();
-      getProfitsPaidToInvestor();
+      // getTotalInvestors();
+      // getTotalProfit();
+      // getInvestedAmountByInvestor();
+      // getProfitsPaidToInvestor();
       getProfitEarnedHistoryByInvestor();
       referrals();
     }
