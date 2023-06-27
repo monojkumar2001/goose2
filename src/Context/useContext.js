@@ -19,10 +19,6 @@ export const ContextProvider = ({ children }) => {
   const [lastWeekProfit, setLastWeekProfit] = useState(0);
 
   const [profitsPaidToInvestor, setProfitsPaidToInvestor] = useState(0);
-
-  const [investmentHistoryByInvestor, setInvestmentHistoryByInvestor] =
-    useState(0);
-  const [payoutHistoryByInvestor, setPayoutHistoryByInvestor] = useState(0);
   const [profitEarnedHistoryByInvestor, setProfitEarnedHistoryByInvestor] =
     useState(0);
 
@@ -77,11 +73,6 @@ export const ContextProvider = ({ children }) => {
       const accounts = await web3.eth.getAccounts();
       const account = accounts[0];
       setAccount(account);
-
-      const contract = await new web3.eth.Contract(
-        CONTRACT_ABI,
-        CONTRACT_ADDRESS
-      );
 
       setWalletConnected(true);
     } catch (err) {
@@ -606,7 +597,6 @@ export const ContextProvider = ({ children }) => {
         updateReferrer,
         userAvailableProfit,
         profitEarnedHistoryByInvestor,
-        investmentHistoryByInvestor,
         profitsPaidToInvestor,
         totalProfit,
         totalInvestors,
