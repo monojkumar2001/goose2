@@ -8,7 +8,7 @@ import { BrowserRouter as Router, Switch, Route,Redirect } from "react-router-do
 import AOS from "aos";
 import "aos/dist/aos.css";
 import WhitePaper from './components/WhitePaper'
-import ReferralLinks from "./components/ReferralLinks";
+// import ReferralLinks from "./components/ReferralLinks";
 import Referral from "./components/Referral";
 
 import {ContextProvider} from "./Context/useContext"
@@ -32,9 +32,6 @@ function App() {
           </Route>
           <Route exact path="/referral">
             <Referral/>
-          </Route>
-          <Route exact path="/referral-link">
-            <ReferralLinks/>
           </Route>
           <Redirect to="/" />
         </Switch>

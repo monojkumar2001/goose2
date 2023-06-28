@@ -96,33 +96,10 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
-  // const getTronweb = async () => {
-  //   try {
-  //     const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
-  //     const web3modal = new Web3Modal({
-  //       network: "mumbai",
-  //       cacheProvider: true,
-  //       providerOptions,
-  //     });
-
-  //     const provider = await web3modal.connect();
-  //     const web3 = new Web3(provider);
-
-  //     await window.ethereum.request({ method: "eth_requestAccounts" });
-
-  //     const accounts = await web3.eth.getAccounts();
-  //     const account = accounts[0];
-  //     setAccount(account);
-
-  //     setWalletConnected(true);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
   const balance = async () => {
     try {
-      const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
+     
+        const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
       const web3modal = new Web3Modal({
         network: "mumbai",
         cacheProvider: true,
@@ -135,6 +112,7 @@ export const ContextProvider = ({ children }) => {
       const balance = web3.utils.fromWei(result, "ether");
       const convert = parseFloat(balance).toFixed(5);
       setWalletBalance(convert);
+      
     } catch (err) {
       console.log(err);
     }
@@ -142,6 +120,8 @@ export const ContextProvider = ({ children }) => {
 
   const handleSubmit = async () => {
     try {
+
+      if(window.ethereum){
       const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
       const web3modal = new Web3Modal({
         network: "mumbai",
@@ -162,6 +142,9 @@ export const ContextProvider = ({ children }) => {
         from: account,
         value: investmentAmountInWei,
       });
+      }else{
+        alert("Please install metamask wallet")
+      }
     } catch (err) {
       console.log(err);
     }
@@ -169,6 +152,7 @@ export const ContextProvider = ({ children }) => {
 
   const updateReferrer = async () => {
     try {
+      if(window.ethereum){
       const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
       const web3modal = new Web3Modal({
         network: "mumbai",
@@ -189,6 +173,9 @@ export const ContextProvider = ({ children }) => {
       await contract.methods.setReferrer(upland).send({
         from: account,
       });
+      }else{
+        alert("Please install metamask wallet")
+      }
     } catch (err) {
       console.log(err);
     }
@@ -196,6 +183,7 @@ export const ContextProvider = ({ children }) => {
 
   const getTotalInvested = async () => {
     try {
+     
       const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
       const web3modal = new Web3Modal({
         network: "mumbai",
@@ -214,6 +202,7 @@ export const ContextProvider = ({ children }) => {
       const convertedResult = web3.utils.fromWei(result, "ether");
       const convert = parseFloat(convertedResult).toFixed(5);
       setTotalInvested(convert);
+      
     } catch (err) {
       console.log(err);
     }
@@ -221,6 +210,7 @@ export const ContextProvider = ({ children }) => {
 
   const getTotalProfit = async () => {
     try {
+      
       const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
       const web3modal = new Web3Modal({
         network: "mumbai",
@@ -239,6 +229,7 @@ export const ContextProvider = ({ children }) => {
       const convertedResult = web3.utils.fromWei(result, "ether");
       const convert = parseFloat(convertedResult).toFixed(5);
       setTotalProfit(convert);
+      
     } catch (err) {
       console.log(err);
     }
@@ -246,6 +237,7 @@ export const ContextProvider = ({ children }) => {
 
   const getTotalInvestors = async () => {
     try {
+     
       const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
       const web3modal = new Web3Modal({
         network: "mumbai",
@@ -264,6 +256,7 @@ export const ContextProvider = ({ children }) => {
 
       console.log(convertedResult);
       setTotalInvestors(convertedResult);
+      
     } catch (err) {
       console.log(err);
     }
@@ -271,6 +264,7 @@ export const ContextProvider = ({ children }) => {
 
   const getInvestedAmountByInvestor = async () => {
     try {
+    
       const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
       const web3modal = new Web3Modal({
         network: "mumbai",
@@ -292,6 +286,7 @@ export const ContextProvider = ({ children }) => {
       const converted = web3.utils.fromWei(result, "ether");
       const convert = parseFloat(converted).toFixed(5);
       setInvestedAmountByInvestor(convert);
+      
     } catch (err) {
       console.log(err);
     }
@@ -299,6 +294,7 @@ export const ContextProvider = ({ children }) => {
 
   const getProfitsPaidToInvestor = async () => {
     try {
+      
       const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
       const web3modal = new Web3Modal({
         network: "mumbai",
@@ -317,6 +313,7 @@ export const ContextProvider = ({ children }) => {
         .call({ from: account });
 
       setProfitsPaidToInvestor(result);
+    
     } catch (err) {
       console.log(err);
     }
@@ -324,6 +321,7 @@ export const ContextProvider = ({ children }) => {
 
   const requestWithdrawOfInitialInvestment = async () => {
     try {
+      if(window.ethereum){
       const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
       const web3modal = new Web3Modal({
         network: "mumbai",
@@ -341,6 +339,9 @@ export const ContextProvider = ({ children }) => {
       await contract.methods
         .requestWithdrawOfInitialInvestment()
         .call({ from: account });
+      }else{
+        alert("Please install metamask wallet")
+      }
     } catch (err) {
       console.log(err);
     }
@@ -348,6 +349,7 @@ export const ContextProvider = ({ children }) => {
 
   const cancelRequestForWithdrawOfInitialInvestment = async () => {
     try {
+      if(window.ethereum){
       const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
       const web3modal = new Web3Modal({
         network: "mumbai",
@@ -365,6 +367,9 @@ export const ContextProvider = ({ children }) => {
       await contract.methods
         .cancelRequestForWithdrawOfInitialInvestment()
         .call({ from: account });
+      }else{
+        alert("Please install metamask wallet")
+      }
     } catch (err) {
       console.log(err);
     }
@@ -401,6 +406,7 @@ export const ContextProvider = ({ children }) => {
 
   const withdrawProfit = async () => {
     try {
+      if(window.ethereum){
       const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
       const web3modal = new Web3Modal({
         network: "mumbai",
@@ -419,6 +425,9 @@ export const ContextProvider = ({ children }) => {
         from: account,
         gasLmit: 3000000,
       });
+      }else{
+        alert("Please install metamask wallet")
+      }
     } catch (err) {
       console.log(err);
     }
@@ -426,6 +435,7 @@ export const ContextProvider = ({ children }) => {
 
   const compoundProfit = async () => {
     try {
+      if(window.ethereum){
       const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
       const web3modal = new Web3Modal({
         network: "mumbai",
@@ -444,6 +454,9 @@ export const ContextProvider = ({ children }) => {
         from: account,
         gasLmit: 3000000,
       });
+      }else{
+        alert("Please install metamask wallet")
+      }
     } catch (err) {
       console.log(err);
     }
@@ -486,6 +499,7 @@ export const ContextProvider = ({ children }) => {
 
   const getRequestedWithdrawByInvestor = async () => {
     try {
+      if(window.ethereum){
       const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
       const web3modal = new Web3Modal({
         network: "mumbai",
@@ -503,6 +517,9 @@ export const ContextProvider = ({ children }) => {
       await contract.methods
         .getRequestedWithdrawByInvestor(account)
         .call({ from: account });
+      }else{
+        alert("Please install metamask wallet")
+      }
     } catch (err) {
       console.log(err);
     }

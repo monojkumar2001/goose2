@@ -33,7 +33,7 @@ const Referral = () => {
               </div>
               <div >
                 <button onClick={updateReferrer} className="referral-btn ">
-                  update Referrer
+                Create Referrer 
                 </button>
               </div>
             </div>
