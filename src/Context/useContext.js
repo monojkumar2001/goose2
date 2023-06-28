@@ -121,7 +121,7 @@ export const ContextProvider = ({ children }) => {
   const handleSubmit = async () => {
     try {
 
-      if(window.ethereum){
+      if(walletConnected){
       const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
       const web3modal = new Web3Modal({
         network: "mumbai",
@@ -143,7 +143,7 @@ export const ContextProvider = ({ children }) => {
         value: investmentAmountInWei,
       });
       }else{
-        alert("Please install metamask wallet")
+        alert("Please install metamask wallet or connect wallet")
       }
     } catch (err) {
       console.log(err);
@@ -152,7 +152,7 @@ export const ContextProvider = ({ children }) => {
 
   const updateReferrer = async () => {
     try {
-      if(window.ethereum){
+      if(walletConnected){
       const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
       const web3modal = new Web3Modal({
         network: "mumbai",
@@ -174,7 +174,7 @@ export const ContextProvider = ({ children }) => {
         from: account,
       });
       }else{
-        alert("Please install metamask wallet")
+        alert("Please install metamask wallet or connect wallet")
       }
     } catch (err) {
       console.log(err);
