@@ -29,90 +29,70 @@ export const ContextProvider = ({ children }) => {
   var upland = "0x16C17E35833e40d9EEADf587D6eC107F69dEF2B1";
   var referrer = "0x16C17E35833e40d9EEADf587D6eC107F69dEF2B1";
 
-  // function getTronweb() {
-  //   var obj = setInterval(async () => {
-  //     if (window.tronWeb && window.tronWeb.ready) {
-  //       clearInterval(obj);
-  //       const tronWebState = {
-  //         installed: !!window.tronWeb.ready,
-  //         loggedIn: window.tronWeb.ready,
-  //       };
-
-  //       setAccount(
-  //         tronWebState.loggedIn ? window.tronWeb.defaultAddress.base58 : null
-  //       );
-  //       setWalletConnected(tronWebState.loggedIn ? true : false);
-
-  //       var tronWeb = window.tronWeb;
-
-  //       setTronWeb(tronWeb);
-
-  //       tronWeb.request({ method: "tron_requestAccounts" });
-
-  //       const contract = await tronWeb.contract(CONTRACT_ABI,CONTRACT_ADDRESS);
-  //       console.log(contract);
-  //       setContract(contract);
-
-  //     }
-  //   });
-  // }
-
   const getTronweb = async () => {
-    if (Web3.givenProvider) {
-      const providerOptions = {};
+  
+    try{
 
-      const web3Modal = new Web3Modal({
-        network: "mainnet",
-        cacheProvider: true,
-        providerOptions,
-      });
-
-      const provider = await web3Modal.connect();
-      const web3 = new Web3(provider);
-
-      web3.eth.net.getId();
-
-      const { ethereum } = window;
-      const accounts = await web3.eth.getAccounts();
-      const account = accounts[0];
-      setAccount(account);
-
-      const networkId = await ethereum.request({
-        method: "net_version",
-      });
-
-      if (networkId === 80001 || networkId === "80001") {
-        setWalletConnected(true);
-
-        ethereum.on("chainChanged", () => {
-          window.location.reload();
+      if (window.ethereum) {
+        const providerOptions ={ rpcUrl: "https://rpc-mumbai.matic.today" };
+        const web3Modal = new Web3Modal({
+          network: "mumbai",
+          cacheProvider: true,
+          providerOptions,
         });
+  
+        const provider = await web3Modal.connect();
+        const web3 = new Web3(provider);
+  
+        web3.eth.net.getId();
+       
+        const { ethereum } = window;
+        const accounts = await web3.eth.getAccounts();
+        const account = accounts[0];
+        setAccount(account);
+       
+  
+        const networkId = await ethereum.request({
+          method: "net_version",
+        });
+  
+        if (networkId === 80001 || networkId === "80001") {
+          setWalletConnected(true);
+        
+          ethereum.on("chainChanged", () => {
+            window.location.reload();
+          });
+        } else {
+          const networks = {
+            polygon: {
+              chainId: `0x${Number(80001).toString(16)}`,
+              chainName: "Polygon Testnet",
+              nativeCurrency: {
+                name: "MATIC",
+                symbol: "MATIC",
+                decimals: 18,
+              },
+              rpcUrls: ["https://matic-mumbai.chainstacklabs.com"],
+              blockExplorerUrls: ["https://mumbai.polygonscan.com"],
+            },
+          };
+  
+          await ethereum.request({
+            method: "wallet_addEthereumChain",
+            params: [
+              {
+                ...networks["polygon"],
+              },
+            ],
+          });
+        }
       } else {
-        const networks = {
-          polygon: {
-            chainId: `0x${Number(80001).toString(16)}`,
-            chainName: "Polygon Testnet",
-            nativeCurrency: {
-              name: "MATIC",
-              symbol: "MATIC",
-              decimals: 18,
-            },
-            rpcUrls: ["https://matic-mumbai.chainstacklabs.com"],
-            blockExplorerUrls: ["https://mumbai.polygonscan.com"],
-          },
-        };
-
-        await ethereum.request({
-          method: "wallet_addEthereumChain",
-          params: [
-            {
-              ...networks["polygon"],
-            },
-          ],
-        });
+        window.open("https://metamask.app.link/dapp/http://localhost:3000");
       }
-    } else {
-      window.open("https://metamask.app.link/dapp/http://localhost:3000");
+
+
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -626,9 +606,9 @@ export const ContextProvider = ({ children }) => {
   upland = getUrlParameter("ref") ? getUrlParameter("ref") : referrer;
 
   useEffect(() => {
-    if (!walletConnected) {
+
       getTronweb();
-    }
+    
   }, [walletConnected]);
 
   useEffect(() => {
