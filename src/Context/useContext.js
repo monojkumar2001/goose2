@@ -625,11 +625,11 @@ export const ContextProvider = ({ children }) => {
 
   upland = getUrlParameter("ref") ? getUrlParameter("ref") : referrer;
 
-  // useEffect(() => {
-  //   if (!walletConnected) {
-  //     getTronweb();
-  //   }
-  // }, [walletConnected]);
+  useEffect(() => {
+    if (!walletConnected) {
+      getTronweb();
+    }
+  }, [walletConnected]);
 
   useEffect(() => {
     copeRef();
