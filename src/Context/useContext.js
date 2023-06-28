@@ -58,28 +58,87 @@ export const ContextProvider = ({ children }) => {
   // }
 
   const getTronweb = async () => {
-    try {
-      const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
-      const web3modal = new Web3Modal({
-        network: "mumbai",
+    if (Web3.givenProvider) {
+      const providerOptions = {};
+
+      const web3Modal = new Web3Modal({
+        network: "mainnet",
         cacheProvider: true,
         providerOptions,
       });
 
-      const provider = await web3modal.connect();
+      const provider = await web3Modal.connect();
       const web3 = new Web3(provider);
 
-      await window.ethereum.request({ method: "eth_requestAccounts" });
+      web3.eth.net.getId();
 
+      const { ethereum } = window;
       const accounts = await web3.eth.getAccounts();
       const account = accounts[0];
       setAccount(account);
 
-      setWalletConnected(true);
-    } catch (err) {
-      console.log(err);
+      const networkId = await ethereum.request({
+        method: "net_version",
+      });
+
+      if (networkId === 80001 || networkId === "80001") {
+        setWalletConnected(true);
+
+        ethereum.on("chainChanged", () => {
+          window.location.reload();
+        });
+      } else {
+        const networks = {
+          polygon: {
+            chainId: `0x${Number(80001).toString(16)}`,
+            chainName: "Polygon Testnet",
+            nativeCurrency: {
+              name: "MATIC",
+              symbol: "MATIC",
+              decimals: 18,
+            },
+            rpcUrls: ["https://matic-mumbai.chainstacklabs.com"],
+            blockExplorerUrls: ["https://mumbai.polygonscan.com"],
+          },
+        };
+
+        await ethereum.request({
+          method: "wallet_addEthereumChain",
+          params: [
+            {
+              ...networks["polygon"],
+            },
+          ],
+        });
+      }
+    } else {
+      window.open("https://metamask.app.link/dapp/http://localhost:3000");
     }
   };
+
+  // const getTronweb = async () => {
+  //   try {
+  //     const providerOptions = { rpcUrl: "https://rpc-mumbai.matic.today" };
+  //     const web3modal = new Web3Modal({
+  //       network: "mumbai",
+  //       cacheProvider: true,
+  //       providerOptions,
+  //     });
+
+  //     const provider = await web3modal.connect();
+  //     const web3 = new Web3(provider);
+
+  //     await window.ethereum.request({ method: "eth_requestAccounts" });
+
+  //     const accounts = await web3.eth.getAccounts();
+  //     const account = accounts[0];
+  //     setAccount(account);
+
+  //     setWalletConnected(true);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   const balance = async () => {
     try {
