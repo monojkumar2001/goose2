@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@devexpress/dx-react-chart-material-ui": "^4.0.4",
-    "@testing-library/jest-dom": "^5.15.0",
+    "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "aos": "^2.3.4",
